@@ -1,0 +1,15 @@
+services:
+  pvpc:
+    build: .
+    container_name: pvpc-consulta
+    restart: unless-stopped
+    ports:
+      - "${PVPC_PORT:-8001}:8000"
+    environment:
+      DATABASE_PATH: /data/pvpc.sqlite3
+      TZ: Europe/Madrid
+    volumes:
+      - pvpc-data:/data
+
+volumes:
+  pvpc-data:

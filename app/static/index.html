@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf4ef">
+  <title>Precio de la luz | PVPC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.6.0/dist/css/tabler.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Lora:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar navbar">
+    <a class="brand" href="/" aria-label="Luz en claro, inicio">
+      <span class="brand-symbol" aria-hidden="true">L</span>
+      <span>luz en claro <small>Precio regulado · Península</small></span>
+    </a>
+    <div class="source-state"><span class="status-dot" id="status-dot"></span><span id="status-text">Consultando precios</span></div>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">Precio voluntario para el pequeño consumidor</p>
+        <h1>Precio de la luz</h1>
+        <p class="intro">Consulta el precio horario y compáralo con la última semana.</p>
+      </div>
+      <div class="date-tools">
+        <label for="selected-date">Fecha</label>
+        <input id="selected-date" class="form-control" type="date">
+        <button class="text-button btn btn-ghost-secondary" id="today-button" type="button">Hoy</button>
+        <button class="export-button btn btn-primary" id="export-button" type="button" title="Descargar informe PDF">
+          <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M10 2.5v9m0 0 3.5-3.5M10 11.5 6.5 8M3 13.5v3h14v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Exportar PDF
+        </button>
+      </div>
+    </section>
+
+    <p class="notice" id="notice" role="status" hidden></p>
+    <p class="error-message" id="error-message" role="alert" hidden></p>
+
+    <section class="day-summary" aria-labelledby="summary-title">
+      <div class="summary-heading"><p class="eyebrow">Resumen del día</p><h2 id="summary-title">--</h2></div>
+      <dl class="day-metrics">
+        <div><dt>Precio medio</dt><dd><span id="day-average">--</span><small>€/kWh</small></dd></div>
+        <div><dt>Más barato</dt><dd class="low-value"><span id="day-minimum">--</span><small>€/kWh</small></dd></div>
+        <div><dt>Más caro</dt><dd class="high-value"><span id="day-maximum">--</span><small>€/kWh</small></dd></div>
+      </dl>
+    </section>
+
+    <section class="chart-section" aria-labelledby="chart-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">Una semana de un vistazo</p><h2 id="chart-title">Mapa horario de precios</h2></div>
+        <div class="chart-legend"><span><i class="legend-ramp"></i>Más barato a más caro</span><span><i class="legend-extreme low"></i>Mínimo</span><span><i class="legend-extreme high"></i>Máximo</span></div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="price-chart" aria-label="Mapa de calor: siete días por veinticuatro horas; el color indica el precio PVPC y el borde señala los extremos semanales"></canvas>
+        <div class="chart-tooltip" id="chart-tooltip" role="tooltip" hidden></div>
+        <p class="chart-empty" id="chart-empty" hidden>No hay datos para dibujar el gráfico.</p>
+      </div>
+      <p class="chart-caption">Cada fila es un día y cada bloque una hora. El tono cambia con el precio; señala un bloque para ver su valor.</p>
+      <div class="week-extremes" aria-live="polite">
+        <p><span class="extreme-mark low"></span><span>Mínimo de 7 días</span><strong id="week-minimum">--</strong><small id="week-minimum-at">--</small></p>
+        <p><span class="extreme-mark high"></span><span>Máximo de 7 días</span><strong id="week-maximum">--</strong><small id="week-maximum-at">--</small></p>
+      </div>
+    </section>
+
+    <section class="hours-section" aria-labelledby="hours-title">
+      <div class="section-heading hours-heading">
+        <div><p class="eyebrow">Detalle</p><h2 id="hours-title">Precios por hora</h2></div>
+        <p class="unit-note">Euros por kilovatio hora (€/kWh)</p>
+      </div>
+      <div class="table-scroll">
+        <table class="table table-striped table-vcenter">
+          <thead><tr><th scope="col">Hora</th><th scope="col">Precio</th><th scope="col">Referencia semanal</th></tr></thead>
+          <tbody id="price-rows"><tr><td colspan="3" class="table-empty">Selecciona una fecha para cargar sus precios.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="data-note">
+      <span aria-hidden="true">i</span>
+      <p>Precios de la tarifa PVPC para la zona peninsular. Los días consultados se guardan en una base de datos local para evitar repetir descargas.</p>
+      <small id="source-note">Fuente: --</small>
+    </aside>
+  </main>
+
+  <footer><span>LUZ EN CLARO</span><span>Datos informativos. Comprueba las condiciones de tu contrato.</span></footer>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
